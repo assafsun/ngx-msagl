@@ -9,30 +9,36 @@ import {
   GeomNode,
   CurveFactory,
   layoutGraphWithSugiayma,
+  layoutGeomGraph,
   Point,
-  GeomEdge
+  GeomEdge,
 } from 'msagl-js';
 
 const DEFAULT_EDGE_NAME = '\x00';
 const EDGE_KEY_DELIM = '\x01';
 
 export class MSAGLLayout implements Layout {
+  public cachedGeomGraph: GeomGraph = undefined;
+
   public run(graph: Graph): Graph {
-    const g = this.createGeomGraph(graph);
+    if (!this.cachedGeomGraph) {
+      const g = this.createGeomGraph(graph);
 
-    const ss = new SugiyamaLayoutSettings();
-
-    ss.layerDirection = LayerDirectionEnum.LR;
-    ss.LayerSeparation = 150;
-    ss.MinNodeHeight = 100;
-    ss.MinNodeWidth = 100;
-
-    g.layoutSettings = ss;
-    layoutGraphWithSugiayma(g);
+      // const ss = new SugiyamaLayoutSettings();
+  
+      // ss.layerDirection = LayerDirectionEnum.LR;
+      // ss.LayerSeparation = 150;
+      // ss.MinNodeHeight = 100;
+      // ss.MinNodeWidth = 100;
+  
+      // g.layoutSettings = ss;
+      layoutGeomGraph(g, undefined);
+      this.cachedGeomGraph = g;
+    }
 
     graph.edgeLabels = [];
 
-    for (const node of g.shallowNodes()) {
+    for (const node of this.cachedGeomGraph.shallowNodes()) {
       const graphNode = graph.nodes.find(n => n.id === node.id);
       graphNode.position = {
         x: (node as any).center.x,
@@ -44,7 +50,7 @@ export class MSAGLLayout implements Layout {
       };
     }
 
-    const geomEdges = Array.from(g.edges());
+    const geomEdges = Array.from(this.cachedGeomGraph.edges());
     for (const edge of graph.edges) {
       this.updateGraphEdge(graph, edge, geomEdges);
     }
