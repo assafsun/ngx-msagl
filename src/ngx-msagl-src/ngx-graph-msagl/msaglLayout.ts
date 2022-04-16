@@ -12,6 +12,7 @@ import {
   layoutGeomGraph,
   Point,
   GeomEdge,
+  MdsLayoutSettings,
 } from 'msagl-js';
 
 const DEFAULT_EDGE_NAME = '\x00';
@@ -19,32 +20,36 @@ const EDGE_KEY_DELIM = '\x01';
 
 export class MSAGLLayout implements Layout {
   public cachedGeomGraph: GeomGraph = undefined;
-  public shouldBreak: boolean = false;
+
+  constructor(private useMSAGLLayeredLayout: boolean) {
+  }
 
   public run(graph: Graph): Graph {
-    this.shouldBreak = false;
     if (!this.cachedGeomGraph) {
       const g = this.createGeomGraph(graph);
 
-      // const ss = new SugiyamaLayoutSettings();
-  
-      // ss.layerDirection = LayerDirectionEnum.LR;
-      // ss.LayerSeparation = 150;
-      // ss.MinNodeHeight = 100;
-      // ss.MinNodeWidth = 100;
-  
-      // g.layoutSettings = ss;
-      layoutGeomGraph(g, undefined);
+      if (this.useMSAGLLayeredLayout) {
+          const ss = new SugiyamaLayoutSettings();
+      
+          ss.layerDirection = LayerDirectionEnum.LR;
+          ss.LayerSeparation = 150;
+          ss.MinNodeHeight = 100;
+          ss.MinNodeWidth = 100;
+      
+          g.layoutSettings = ss;
+          layoutGraphWithSugiayma(g);
+      } else {
+          layoutGeomGraph(g, undefined);
+      }
+
       this.cachedGeomGraph = g;
     }
 
     graph.edgeLabels = [];
-
     for (const node of this.cachedGeomGraph.shallowNodes()) {
       const graphNode = graph.nodes.find(n => n.id === node.id);
       if ((graphNode.position?.x === (node as any).center.x) &&
           (graphNode.position?.y === (node as any).center.y)) {
-            this.shouldBreak = true;
             break;
       }
 

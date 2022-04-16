@@ -2,11 +2,11 @@
   *ngIf="nodes && links"
   [links]="links"
   [nodes]="nodes"
-  [layout]="layout"
+  [layout]="useMsaglLayout ? msaglLayout : undefined"
   [curve]="curve"
+  [enableZoom]="true"
   [nodeWidth]="20"
   [nodeHeight]="20"
-  [enableZoom]="true"
   [draggingEnabled]="false"
   [autoZoom]="true"
 >
