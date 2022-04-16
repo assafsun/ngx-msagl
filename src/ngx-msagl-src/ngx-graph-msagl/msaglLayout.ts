@@ -21,7 +21,9 @@ const EDGE_KEY_DELIM = '\x01';
 export class MSAGLLayout implements Layout {
   public cachedGeomGraph: GeomGraph = undefined;
 
-  constructor(private useMSAGLLayeredLayout: boolean) {
+  constructor(private useMSAGLLayeredLayout: boolean,
+              private nodeWidth: number,
+              private nodeHeight: number) {
   }
 
   public run(graph: Graph): Graph {
@@ -33,8 +35,8 @@ export class MSAGLLayout implements Layout {
       
           ss.layerDirection = LayerDirectionEnum.LR;
           ss.LayerSeparation = 150;
-          ss.MinNodeHeight = 100;
-          ss.MinNodeWidth = 100;
+          ss.MinNodeHeight = this.nodeHeight;
+          ss.MinNodeWidth = this.nodeWidth;
       
           g.layoutSettings = ss;
           layoutGraphWithSugiayma(g);

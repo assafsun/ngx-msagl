@@ -16,6 +16,8 @@ import * as shape from 'd3-shape';
 export class NgxGraphMSAGLComponent implements OnInit {
   @Input() nodes: ngxMsaglNode[] = undefined;
   @Input() links: ngxMsaglEdge[] = undefined;
+  @Input() nodeWidth: number = 20;
+  @Input() nodeHeight: number = 20;
   @Input() useMsaglLayout: boolean = true;
   @Input() useMSAGLLayeredLayout: boolean = false;
 
@@ -23,7 +25,7 @@ export class NgxGraphMSAGLComponent implements OnInit {
   public curve: any = shape.curveBasis;
 
   ngOnInit(): void {
-    this.msaglLayout = new MSAGLLayout(this.useMSAGLLayeredLayout);
+    this.msaglLayout = new MSAGLLayout(this.useMSAGLLayeredLayout, this.nodeWidth, this.nodeHeight);
   }
 
   // private id(): string {
