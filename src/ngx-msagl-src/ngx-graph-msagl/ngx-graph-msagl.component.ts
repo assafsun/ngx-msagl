@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { Layout } from '@swimlane/ngx-graph';
 import { MSAGLLayout } from './msaglLayout';
+import { ngxMsaglNode, ngxMsaglEdge } from '../models';
 
-import GameOfThrones from "./../examples/gameOfThrones.json";
 import * as shape from 'd3-shape';
 
 const cache = {};
@@ -10,35 +10,30 @@ const cache = {};
 @Component({
   selector: 'ngx-graph-msagl',
   templateUrl: './ngx-graph-msagl.component.html',
-  styleUrls: ['./ngx-graph-msagl.component.scss']
+  styleUrls: ['./ngx-graph-msagl.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgxGraphMSAGLComponent {
+  @Input() nodes: ngxMsaglNode[] = undefined;
+  @Input() links: ngxMsaglEdge[] = undefined;
+
   public layout: Layout = new MSAGLLayout();
   public curve: any = shape.curveBasis;
 
-  public nodes: any = [];
-  public links: any = [];
-
   constructor() {
-    this.nodes = GameOfThrones.nodes;
-    this.links = GameOfThrones.edges;
-
-    for (const link of this.links) {
-      link.id = this.id();
-    }
   }
 
-  private id(): string {
-    let newId = ('0000' + ((Math.random() * Math.pow(36, 4)) << 0).toString(36)).slice(-4);
+  // private id(): string {
+  //   let newId = ('0000' + ((Math.random() * Math.pow(36, 4)) << 0).toString(36)).slice(-4);
   
-    newId = `a${newId}`;
+  //   newId = `a${newId}`;
   
-    // ensure not already used
-    if (!cache[newId]) {
-      cache[newId] = true;
-      return newId;
-    }
+  //   // ensure not already used
+  //   if (!cache[newId]) {
+  //     cache[newId] = true;
+  //     return newId;
+  //   }
   
-    return this.id();
-  }
+  //   return this.id();
+  // }
 }

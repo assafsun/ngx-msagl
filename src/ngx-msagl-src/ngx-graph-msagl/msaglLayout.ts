@@ -19,8 +19,10 @@ const EDGE_KEY_DELIM = '\x01';
 
 export class MSAGLLayout implements Layout {
   public cachedGeomGraph: GeomGraph = undefined;
+  public shouldBreak: boolean = false;
 
   public run(graph: Graph): Graph {
+    this.shouldBreak = false;
     if (!this.cachedGeomGraph) {
       const g = this.createGeomGraph(graph);
 
@@ -40,6 +42,12 @@ export class MSAGLLayout implements Layout {
 
     for (const node of this.cachedGeomGraph.shallowNodes()) {
       const graphNode = graph.nodes.find(n => n.id === node.id);
+      if ((graphNode.position?.x === (node as any).center.x) &&
+          (graphNode.position?.y === (node as any).center.y)) {
+            this.shouldBreak = true;
+            break;
+      }
+
       graphNode.position = {
         x: (node as any).center.x,
         y: (node as any).center.y
@@ -87,16 +95,21 @@ export class MSAGLLayout implements Layout {
   }
 
   public updateGraphEdge(graph: Graph, edge: Edge, geomEdges: any): Graph {
-    const geoEdge = geomEdges.find(e => e.source.id === edge.source && e.target.id === edge.target);
-    edge.points = this.getPointsFromGeoEdge(geoEdge);
-
-    const edgeLabelId = `${edge.source}${EDGE_KEY_DELIM}${edge.target}${EDGE_KEY_DELIM}${DEFAULT_EDGE_NAME}`;
-    const matchingEdgeLabel = graph.edgeLabels[edgeLabelId];
-    if (matchingEdgeLabel) {
-      matchingEdgeLabel.points = edge.points;
-    } else {
-      graph.edgeLabels[edgeLabelId] = { points: edge.points };
+    if (!edge.points || edge.points.length === 0) {
+      const geoEdge = geomEdges.find(e => e.source.id === edge.source && e.target.id === edge.target);
+      edge.points = this.getPointsFromGeoEdge(geoEdge);
     }
+
+    if (edge.points?.length > 0) {
+      const edgeLabelId = `${edge.source}${EDGE_KEY_DELIM}${edge.target}${EDGE_KEY_DELIM}${DEFAULT_EDGE_NAME}`;
+      const matchingEdgeLabel = graph.edgeLabels[edgeLabelId];
+      if (matchingEdgeLabel) {
+        matchingEdgeLabel.points = edge.points;
+      } else {
+        graph.edgeLabels[edgeLabelId] = { points: edge.points };
+      }
+    }
+
     return graph;
   }
 
