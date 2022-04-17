@@ -16,8 +16,8 @@ import * as shape from 'd3-shape';
 export class NgxGraphMSAGLComponent implements OnInit {
   @Input() nodes: ngxMsaglNode[] = undefined;
   @Input() links: ngxMsaglEdge[] = undefined;
-  @Input() nodeWidth: number = 20;
-  @Input() nodeHeight: number = 20;
+  @Input() nodeWidth: number = 10;
+  @Input() nodeHeight: number = 10;
   @Input() useMsaglLayout: boolean = true;
   @Input() useMSAGLLayeredLayout: boolean = false;
 

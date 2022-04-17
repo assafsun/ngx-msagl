@@ -84,7 +84,7 @@ export class MSAGLLayout implements Layout {
       g.graph.addNode((node = new Node(id)));
     }
     const geomNode = new GeomNode(node);
-    geomNode.boundaryCurve = CurveFactory.createRectangle(width, height, center);
+    geomNode.boundaryCurve = CurveFactory.mkCircle(10, new Point(10, 10));
     return geomNode;
   }
 
