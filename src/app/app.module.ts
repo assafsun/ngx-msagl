@@ -1,28 +1,40 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatIconModule } from '@angular/material/icon';
-import { NgxGraphModule } from '@swimlane/ngx-graph';
 
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './components/app-root/app.component';
-import { AppBarComponent } from './components/app-bar/app-bar/app-bar.component';
-import { NgxGraphMSAGLComponent } from 'src/ngx-msagl-src/ngx-graph-msagl/ngx-graph-msagl.component';
+import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { NgxGraphModule } from '@swimlane/ngx-graph';
+import { HomeComponent } from './pages/home/home.component';
+import { ExampleComponent } from './pages/example/example.component';
+import { HelpComponent } from './pages/help/help.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { NgxGraphMSAGLComponent } from './../ngx-msagl-src/ngx-graph-msagl/ngx-graph-msagl.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AppBarComponent,
-    NgxGraphMSAGLComponent
-  ],
+  declarations: [AppComponent, 
+    HomeComponent, 
+    ExampleComponent, 
+    HelpComponent, 
+    NotFoundComponent, 
+    NgxGraphMSAGLComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     MatToolbarModule,
+    MatSidenavModule,
+    MatButtonModule,
     MatIconModule,
+    MatDividerModule,
     NgxGraphModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,18 +1,16 @@
 import { Component } from '@angular/core';
-import { ngxMsaglEdge, ngxMsaglNode } from 'src/ngx-msagl-src/models';
 
+import { ngxMsaglEdge, ngxMsaglNode } from 'src/ngx-msagl-src/models';
 import GameOfThrones from "./../../examples/gameOfThrones.json";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.less']
+  selector: 'app-example',
+  templateUrl: './example.component.html',
+  styleUrls: ['./example.component.scss']
 })
-export class AppComponent {
+export class ExampleComponent {
   public nodes: ngxMsaglNode[] = [];
   public links: ngxMsaglEdge[] = [];
-
-  title = 'ngx-msagl';
 
   constructor() {
     this.nodes = GameOfThrones.nodes;
