@@ -12,7 +12,6 @@ import {
   layoutGeomGraph,
   Point,
   GeomEdge,
-  MdsLayoutSettings,
 } from 'msagl-js';
 
 const DEFAULT_EDGE_NAME = '\x00';
