@@ -13,9 +13,7 @@ export class ExampleComponent {
   public links: ngxMsaglEdge[] = [];
 
   constructor() {
-    console.log("assaf1");
     this.nodes = GameOfThrones.nodes;
     this.links = GameOfThrones.edges;
-    console.log("assaf2");
   }
 }
