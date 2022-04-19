@@ -24,6 +24,7 @@
     "@ngneat/until-destroy": "^9.0.2",
     "@swimlane/ngx-graph": "^8.0.0",
     "d3-scale": "^4.0.2",
+    "graphlib-dot": "^0.6.4",
     "msagl-js": "0.0.55",
     "rxjs": "7.4.0",
     "tslib": "2.3.0",

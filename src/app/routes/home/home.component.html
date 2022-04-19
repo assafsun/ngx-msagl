@@ -1,1 +1,6 @@
 <span>Welcome to ngx-msagl</span>
+<ngx-graph-msagl *ngIf="shouldShowGraph" 
+                 [nodes]="nodes" 
+                 [links]="links"
+                 [useMSAGLLayeredLayout]="true">
+</ngx-graph-msagl>
