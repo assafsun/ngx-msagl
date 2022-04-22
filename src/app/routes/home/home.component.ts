@@ -13,11 +13,12 @@ export class HomeComponent implements OnInit {
   public shouldShowGraph:boolean = false;
 
   async ngOnInit(): Promise<void> {
-    const resp = await fetch("https://raw.githubusercontent.com/microsoft/msagljs/main/modules/core/test/data/graphvis/world.gv");
+    const resp = await fetch("https://raw.githubusercontent.com/microsoft/msagljs/main/modules/core/test/data/graphvis/NaN.gv");
     const content = await resp.text();
     const graph = GraphlibDot.read(content);
-    this.nodes = graph.nodes().map((node) => {return {id: node, label:"L"+node}});
-    this.links = graph.edges().map((edge) => {return {source: edge.v, target: edge.w}});
+    this.nodes = graph.nodes().map((node) => {return {id: node.replace(/\s/g, '').replaceAll('.', ''), label:node}});
+    this.links = graph.edges().map((edge) => {return {source: edge.v.replace(/\s/g, '').replaceAll('.', ''), 
+                                                      target: edge.w.replace(/\s/g, '').replaceAll('.', '')}});
     this.shouldShowGraph = true;
   }
 }
