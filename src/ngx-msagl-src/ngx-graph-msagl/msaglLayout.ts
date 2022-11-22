@@ -38,7 +38,7 @@ export class MSAGLLayout implements Layout {
           ss.MinNodeWidth = this.nodeWidth;
       
           g.layoutSettings = ss;
-          layoutGraphWithSugiayma(g);
+          layoutGraphWithSugiayma(g, null, true);
       } else {
           layoutGeomGraph(g, undefined);
       }
@@ -47,7 +47,7 @@ export class MSAGLLayout implements Layout {
     }
 
     graph.edgeLabels = [];
-    for (const node of this.cachedGeomGraph.shallowNodes()) {
+    for (const node of this.cachedGeomGraph.nodesBreadthFirst) {
       const graphNode = graph.nodes.find(n => n.id === node.id);
       if ((graphNode.position?.x === (node as any).center.x) &&
           (graphNode.position?.y === (node as any).center.y)) {
@@ -64,7 +64,7 @@ export class MSAGLLayout implements Layout {
       };
     }
 
-    const geomEdges = Array.from(this.cachedGeomGraph.edges());
+    const geomEdges = Array.from(this.cachedGeomGraph.deepEdges);
     for (const edge of graph.edges) {
       this.updateGraphEdge(graph, edge, geomEdges);
     }
@@ -130,9 +130,10 @@ export class MSAGLLayout implements Layout {
       });
     }
 
+    //e.curve.end
     result.push({
-      ['y']: e.targetArrowhead.tipPosition.y,
-      ['x']: e.targetArrowhead.tipPosition.x
+      ['y']: e.curve.end.y,
+      ['x']: e.curve.end.x
     });
 
     return result;
